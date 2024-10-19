@@ -1,0 +1,77 @@
+def ImageFileStorage
+pipeline{
+    agent any
+    tools {
+        maven 'Maven'
+        jdk 'JDK_11.0.10'
+        
+    }
+    environment {
+        BRANCH = "k8s"
+        GIT_REPO = "https://gitlab.plandiv.gov.bd/sdpp/planning-idsdp-files-storage-server.git"
+        PROJ = "planning-sdpp-k8s"
+        REPO = "image.example.com/${PROJ}"
+        REGISTRY_URL = "http://image.example.com"
+    }
+    stages{
+        stage('SCM'){
+            steps{
+               git branch: "${env.BRANCH}",credentialsId: 'GITLAB_ID', url: "${env.GIT_REPO}"
+            }
+        }
+        
+        stage('Version') {
+            steps {
+                sh 'mvn -v'
+            }
+        }
+        
+        stage('Update'){
+            steps{
+                sh "mvn clean package -X"
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                script {
+                    //ImageConfiguration = docker.build("${env.REPO}/${env.JOB_NAME}:${env.BUILD_ID}")
+                    ImageFileStorage = docker.build("${env.JOB_NAME}:${env.BUILD_ID}")
+                }
+            }
+        }
+        stage('push') {
+            steps {
+                script {
+                    docker.withRegistry("${env.REGISTRY_URL}", "DOCKER_HUB") {
+                        ImageFileStorage.push()
+                    }
+                }
+            }
+        }
+        
+        stage('Cleaning up') { 
+			steps {
+				sh "docker rmi -f image.example.com/${env.JOB_NAME}:$BUILD_ID"
+				sh "docker rmi ${env.JOB_NAME}:$BUILD_ID"
+			}
+        }
+        
+        stage('Deploy') {
+            steps {
+                script {
+                    withKubeConfig([credentialsId: 'k8s-sdpp', namespace:'default']) {
+                        sh "sed -i 's/TAG/${env.BUILD_ID}/g' deploy/files-storage-server.yml"
+                        sh "/usr/local/bin/kubectl apply -f deploy/files-storage-server.yml"
+                    }
+                }
+            }
+        }
+    }
+    
+    post { 
+        always { 
+            cleanWs()
+        }
+    }
+}
