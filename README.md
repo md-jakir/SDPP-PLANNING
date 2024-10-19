@@ -16,3 +16,14 @@ GitLab instance was used as source code management and Jenkins server was used f
 ![WhatsApp Image 2024-10-19 at 16 27 45_429d9598](https://github.com/user-attachments/assets/cd3154ab-a5c8-4022-a216-5bd48a305eca)
 # Jenkins Pipelines
 ![WhatsApp Image 2024-10-19 at 16 30 16_93363d06](https://github.com/user-attachments/assets/8aa2a1c4-6dbe-49c9-9943-0601dacea066)
+# Used DevOps Tools and other technology
+- Kubernetes
+- Docker
+- Jenkins
+- GitLab
+- Dokcer Harbor
+- Nginx
+- Spring Boot Java
+- React
+- Angular
+- HAProxy
