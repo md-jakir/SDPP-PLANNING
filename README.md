@@ -16,6 +16,7 @@ GitLab instance was used as source code management and Jenkins server was used f
 ![WhatsApp Image 2024-10-19 at 16 27 45_429d9598](https://github.com/user-attachments/assets/cd3154ab-a5c8-4022-a216-5bd48a305eca)
 # Jenkins Pipelines
 ![WhatsApp Image 2024-10-19 at 16 30 16_93363d06](https://github.com/user-attachments/assets/8aa2a1c4-6dbe-49c9-9943-0601dacea066)
+![WhatsApp Image 2024-11-01 at 15 27 10_8d8b64c1](https://github.com/user-attachments/assets/fb6b8963-ca50-445a-babb-f6847cdca43b)
 # Used DevOps Tools and other technology
 - Kubernetes
 - Docker
